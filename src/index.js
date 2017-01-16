@@ -47,17 +47,13 @@ export default {
 				}
 			}
 		};
-
-		Vue.mixin({
-			// Vue v1.x
-			beforeCompile: addListeners,
-			
-			// Vue v2.x
-			beforeCreate: addListeners,
-
-
+		
+		let mixin = {
 			beforeDestroy: removeListeners
-		});
+		}
+		
+		mixin[Vue.version.indexOf('2') === 0 ? 'beforeCreate' : 'beforeCompile'] = addListeners
+		Vue.mixin(mixin);
 
 	}
 
